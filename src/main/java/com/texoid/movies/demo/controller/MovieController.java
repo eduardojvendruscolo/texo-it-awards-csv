@@ -33,19 +33,19 @@ public class MovieController {
     @GetMapping(path = "/min-max")
     public ResponseEntity<IntervalMinMaxDTO> getMinMaxAwardInterval(){
 
-        IntervalMinMaxDTO returnDto = new IntervalMinMaxDTO();
-
         List<AwardsIntervals> minAwardPeriodList = movieService.findMinPeriodAwardProducer();
         List<AwardsIntervalsDTO> minAwardsIntervalsDTOList = minAwardPeriodList
-                .stream().map(ai -> modelMapper.map(ai, AwardsIntervalsDTO.class)).collect(Collectors.toList());
-        returnDto.setMin(minAwardsIntervalsDTOList);
+                .stream().map(ai -> modelMapper.map(ai, AwardsIntervalsDTO.class))
+                .collect(Collectors.toList());
 
         List<AwardsIntervals> maxAwardPeriodList = movieService.findMaxPeriodAwardProducer();
         List<AwardsIntervalsDTO> maxAwardsIntervalsDTOList = maxAwardPeriodList
-                .stream().map(ai -> modelMapper.map(ai, AwardsIntervalsDTO.class)).collect(Collectors.toList());
-        returnDto.setMax(maxAwardsIntervalsDTOList);
+                .stream().map(ai -> modelMapper.map(ai, AwardsIntervalsDTO.class))
+                .collect(Collectors.toList());
 
-        return new ResponseEntity<>(returnDto, HttpStatus.OK);
+        IntervalMinMaxDTO intervalMinMaxDTO = new IntervalMinMaxDTO(minAwardsIntervalsDTOList, maxAwardsIntervalsDTOList);
+
+        return new ResponseEntity<>(intervalMinMaxDTO, HttpStatus.OK);
     }
 
 }

@@ -2,6 +2,7 @@ package com.texoid.movies.demo.csv;
 
 import com.texoid.movies.demo.domain.Movie;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,13 +17,15 @@ import java.util.stream.Collectors;
 @Order(1)
 @Getter
 public class CsvFileReader implements CommandLineRunner {
-
     private List<Movie> movies = new ArrayList<>();
+    @Value("${csv.file.url}")
+    private String csvFileUrl;
 
     @Override
     public void run(String... args) throws Exception {
 
-        Path path = Path.of("src/main/resources/movielist.csv");
+        Path path = Path.of(csvFileUrl);
+
         List<String> lines = Files.readAllLines(path).stream().skip(1).collect(Collectors.toList());
 
         for (String line: lines) {

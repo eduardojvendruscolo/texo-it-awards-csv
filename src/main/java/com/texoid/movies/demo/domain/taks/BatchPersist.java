@@ -32,9 +32,6 @@ public class BatchPersist implements CommandLineRunner {
 
         movieRepository.saveAll(csvFileReader.getMovies());
 
-        //imprimie todos
-        //movieRepository.findAll().stream().forEach(System.out::println);
-
         Set<String> producerNames = new HashSet<>();
         List<Movie> movies = movieRepository.findAll();
 
@@ -56,21 +53,26 @@ public class BatchPersist implements CommandLineRunner {
                     movie.addProducer(producer);
                 }
             }
-
             movieRepository.save(movie);
         }
 
         List<Producer> producers = producerRepository.findAll();
         for (Producer producer : producers) {
-            List<Movie> moviesJoelSilver = movieRepository.moviesAwardedByProducer(producer.getId());
-            if (moviesJoelSilver.stream().count() >= 2) {
-                moviesJoelSilver.stream().forEach(System.out::println);
+            List<Movie> moviesAwardedByProducer = movieRepository.moviesAwardedByProducer(producer.getId());
 
-                Movie firstMovie = moviesJoelSilver.get(0);
-                Movie secondMovie = moviesJoelSilver.get(1);
+            Integer awardsProducerCountLeft = moviesAwardedByProducer.size();
+            Integer awardIntervalIndex = 0;
+
+            while (awardsProducerCountLeft >= 2) {
+                Movie firstMovie = moviesAwardedByProducer.get(awardIntervalIndex);
+                Movie secondMovie = moviesAwardedByProducer.get(++awardIntervalIndex);
+                awardIntervalIndex++;
+
                 Integer interval = secondMovie.getMovieYear() - firstMovie.getMovieYear();
                 AwardsIntervals awardsIntervals = new AwardsIntervals(producer, interval, firstMovie.getMovieYear(), secondMovie.getMovieYear());
                 awardsIntervalsRepository.save(awardsIntervals);
+
+                awardsProducerCountLeft -= 2;
             }
         }
 

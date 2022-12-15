@@ -10,4 +10,9 @@ import java.util.List;
 public class IntervalMinMaxDTO {
     private List<AwardsIntervalsDTO> min;
     private List<AwardsIntervalsDTO> max;
+
+    public IntervalMinMaxDTO(List<AwardsIntervalsDTO> min, List<AwardsIntervalsDTO> max) {
+        this.min = min;
+        this.max = max;
+    }
 }

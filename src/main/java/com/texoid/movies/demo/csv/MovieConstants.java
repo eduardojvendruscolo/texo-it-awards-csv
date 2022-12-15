@@ -6,9 +6,7 @@ public enum MovieConstants {
     STUDIOS(2),
     PRODUCER(3),
     WINNER(4);
-
     private final Integer index;
-
     MovieConstants(Integer index) {
         this.index = index;
     }
