@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProducerIntervalDTO {
+public class AwardsIntervalsDTO {
     private String producer;
     private Integer interval;
     private Integer previousWin;

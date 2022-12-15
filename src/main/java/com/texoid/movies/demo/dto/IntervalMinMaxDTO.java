@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class IntervalMinMaxDTO {
-    private List<ProducerIntervalDTO> min;
-    private List<ProducerIntervalDTO> max;
+    private List<AwardsIntervalsDTO> min;
+    private List<AwardsIntervalsDTO> max;
 }

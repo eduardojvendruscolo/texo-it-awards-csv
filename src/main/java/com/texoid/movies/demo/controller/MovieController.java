@@ -2,23 +2,31 @@ package com.texoid.movies.demo.controller;
 
 import com.texoid.movies.demo.domain.AwardsIntervals;
 import com.texoid.movies.demo.dto.IntervalMinMaxDTO;
-import com.texoid.movies.demo.dto.ProducerIntervalDTO;
+import com.texoid.movies.demo.dto.AwardsIntervalsDTO;
 import com.texoid.movies.demo.service.MovieService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "movies")
 public class MovieController {
+
+    private final ModelMapper modelMapper;
     private final MovieService movieService;
 
-    public MovieController(MovieService movieService) {
+    public MovieController(ModelMapper modelMapper, MovieService movieService) {
+        this.modelMapper = modelMapper;
+        this.modelMapper.typeMap(AwardsIntervals.class, AwardsIntervalsDTO.class)
+                .addMapping(AwardsIntervals::getProducerName, AwardsIntervalsDTO::setProducer)
+                .addMapping(AwardsIntervals::getYearsInterval, AwardsIntervalsDTO::setInterval);
+
         this.movieService = movieService;
     }
 
@@ -27,30 +35,15 @@ public class MovieController {
 
         IntervalMinMaxDTO returnDto = new IntervalMinMaxDTO();
 
-        AwardsIntervals minAwardPeriod = movieService.findMinPeriodAwardProducer();
+        List<AwardsIntervals> minAwardPeriodList = movieService.findMinPeriodAwardProducer();
+        List<AwardsIntervalsDTO> minAwardsIntervalsDTOList = minAwardPeriodList
+                .stream().map(ai -> modelMapper.map(ai, AwardsIntervalsDTO.class)).collect(Collectors.toList());
+        returnDto.setMin(minAwardsIntervalsDTOList);
 
-        ProducerIntervalDTO pi1 = new ProducerIntervalDTO();
-        pi1.setInterval(minAwardPeriod.getYearsInterval());
-        pi1.setProducer(minAwardPeriod.getProducer().getName());
-        pi1.setPreviousWin(minAwardPeriod.getPreviousWin());
-        pi1.setFollowingWin(minAwardPeriod.getFollowingWin());
-
-        List<ProducerIntervalDTO> list1 = new ArrayList<>();
-        list1.add(pi1);
-
-        AwardsIntervals maxAwardPeriod = movieService.findMaxPeriodAwardProducer();
-
-        ProducerIntervalDTO pi2 = new ProducerIntervalDTO();
-        pi2.setInterval(maxAwardPeriod.getYearsInterval());
-        pi2.setProducer(maxAwardPeriod.getProducer().getName());
-        pi2.setPreviousWin(maxAwardPeriod.getPreviousWin());
-        pi2.setFollowingWin(maxAwardPeriod.getFollowingWin());
-
-        List<ProducerIntervalDTO> list2 = new ArrayList<>();
-        list2.add(pi2);
-
-        returnDto.setMin(list1);
-        returnDto.setMax(list2);
+        List<AwardsIntervals> maxAwardPeriodList = movieService.findMaxPeriodAwardProducer();
+        List<AwardsIntervalsDTO> maxAwardsIntervalsDTOList = maxAwardPeriodList
+                .stream().map(ai -> modelMapper.map(ai, AwardsIntervalsDTO.class)).collect(Collectors.toList());
+        returnDto.setMax(maxAwardsIntervalsDTOList);
 
         return new ResponseEntity<>(returnDto, HttpStatus.OK);
     }

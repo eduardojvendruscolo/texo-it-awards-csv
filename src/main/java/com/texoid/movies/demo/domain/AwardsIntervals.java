@@ -36,4 +36,8 @@ public class AwardsIntervals {
         this.setId(UUID.randomUUID());
     }
 
+    public String getProducerName(){
+        return producer.getName();
+    }
+
 }

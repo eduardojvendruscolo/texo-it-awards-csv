@@ -4,7 +4,7 @@ import com.texoid.movies.demo.domain.AwardsIntervals;
 import com.texoid.movies.demo.repository.AwardsIntervalsRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class MovieService {
@@ -15,20 +15,12 @@ public class MovieService {
         this.awardsIntervalsRepository = awardsIntervalsRepository;
     }
 
-    public AwardsIntervals findMinPeriodAwardProducer() {
-
-        AwardsIntervals minAwardInterval = awardsIntervalsRepository.findAll().stream().sorted(
-                Comparator.comparing(AwardsIntervals::getYearsInterval)).findFirst().get();
-
-        return minAwardInterval;
+    public List<AwardsIntervals> findMinPeriodAwardProducer() {
+        return awardsIntervalsRepository.getMinAwardsIntervals();
     }
 
-    public AwardsIntervals findMaxPeriodAwardProducer() {
-
-        AwardsIntervals maxAwardInterval = awardsIntervalsRepository.findAll().stream().sorted(
-                (o1, o2) -> o2.getYearsInterval().compareTo(o1.getYearsInterval())).findFirst().get();
-
-        return maxAwardInterval;
+    public List<AwardsIntervals> findMaxPeriodAwardProducer() {
+        return awardsIntervalsRepository.getMaxAwardsIntervals();
     }
 
 }
