@@ -69,13 +69,12 @@ public class BatchPersist implements CommandLineRunner {
             while (awardsProducerCountLeft >= 2) {
                 Movie firstMovie = moviesAwardedByProducer.get(awardIntervalIndex);
                 Movie secondMovie = moviesAwardedByProducer.get(++awardIntervalIndex);
-                awardIntervalIndex++;
 
                 Integer interval = secondMovie.getMovieYear() - firstMovie.getMovieYear();
                 AwardsIntervals awardsIntervals = new AwardsIntervals(producer, interval, firstMovie.getMovieYear(), secondMovie.getMovieYear());
                 awardsIntervalsRepository.save(awardsIntervals);
 
-                awardsProducerCountLeft -= 2;
+                awardsProducerCountLeft -= 1;
             }
         }
 

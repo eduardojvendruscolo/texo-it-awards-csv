@@ -20,7 +20,7 @@ year;title;studios;producers;winner
 1982;Movie 19;Studio 19;Other;
 1982;Movie 20;Studio 20;Other;
 1983;Movie 21;Studio 21;Other;
-1983;Movie 22;Studio 22;Adelle, Joseph and Eduardo;yes
+1983;Movie 22;Studio 22;Adelle, Joseph and Eduardo;
 1983;Movie 23;Studio 23;Other;
 1983;Movie 24;Studio 24;Other;
 1983;Movie 25;Studio 25;Other;
@@ -30,4 +30,3 @@ year;title;studios;producers;winner
 1985;Movie 29;Studio 29;Other;
 1986;Movie 30;Studio 30;Other;
 1987;Movie 31;Studio 31;Nina;yes
-1988;Movie 32;Studio 32;Eduardo;yes
