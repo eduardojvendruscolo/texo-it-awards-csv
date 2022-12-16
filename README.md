@@ -4,10 +4,12 @@ Clone this application in a folder on your local computer, inside the folder
 execute the following commands:
 
 ```shell
+mvn install
+
 mvn pring-boot:run
 ```
 
-after this, you can access the link: http://localhost:8080/movies/min-max, you shold see a return like this:
+After this, you can access the link: http://localhost:8080/movies/min-max, you shold see a return like this:
 
 ```
 {
