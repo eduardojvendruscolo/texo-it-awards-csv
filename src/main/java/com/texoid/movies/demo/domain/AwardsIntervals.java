@@ -17,6 +17,7 @@ import java.util.UUID;
 public class AwardsIntervals {
 
     @Id
+    @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
     @ManyToOne
     private Producer producer;

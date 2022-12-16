@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "movies")
 public class MovieController {
-
     private final ModelMapper modelMapper;
     private final MovieService movieService;
 

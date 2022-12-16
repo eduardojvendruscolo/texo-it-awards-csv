@@ -20,7 +20,6 @@ public class Producer {
     @Id
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
-
     private String name;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

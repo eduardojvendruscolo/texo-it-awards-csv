@@ -32,14 +32,14 @@ public class CsvFileReader implements CommandLineRunner {
 
             String[] attributes = line.split(";");
 
-            Integer year = Integer.valueOf(attributes[MovieConstants.YEAR.getIndex()]);
-            String title = attributes[MovieConstants.TITLE.getIndex()];
-            String studios = attributes[MovieConstants.STUDIOS.getIndex()];
-            String producer = attributes[MovieConstants.PRODUCER.getIndex()];
+            Integer year = Integer.valueOf(attributes[MoviesAwardsComlumnEnum.YEAR.getIndex()]);
+            String title = attributes[MoviesAwardsComlumnEnum.TITLE.getIndex()];
+            String studios = attributes[MoviesAwardsComlumnEnum.STUDIOS.getIndex()];
+            String producer = attributes[MoviesAwardsComlumnEnum.PRODUCER.getIndex()];
 
             Boolean winner = false;
             if (attributes.length == 5)
-                winner = attributes[MovieConstants.WINNER.getIndex()].compareTo("yes") == 0;
+                winner = attributes[MoviesAwardsComlumnEnum.WINNER.getIndex()].compareTo("yes") == 0;
 
             Movie movie = new Movie(year, title, studios, producer, winner);
             movies.add(movie);

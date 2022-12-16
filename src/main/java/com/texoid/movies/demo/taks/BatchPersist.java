@@ -1,4 +1,4 @@
-package com.texoid.movies.demo.domain.taks;
+package com.texoid.movies.demo.taks;
 
 import com.texoid.movies.demo.csv.CsvFileReader;
 import com.texoid.movies.demo.domain.AwardsIntervals;
@@ -7,7 +7,6 @@ import com.texoid.movies.demo.domain.Producer;
 import com.texoid.movies.demo.repository.AwardsIntervalsRepository;
 import com.texoid.movies.demo.repository.MovieRepository;
 import com.texoid.movies.demo.repository.ProducerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,14 +17,18 @@ import java.util.*;
 @Order(2)
 public class BatchPersist implements CommandLineRunner {
 
-    @Autowired
-    private CsvFileReader csvFileReader;
-    @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private ProducerRepository producerRepository;
-    @Autowired
-    private AwardsIntervalsRepository awardsIntervalsRepository;
+    public static final String CSV_SPLIT_REGEX = ",| and ";
+    private final CsvFileReader csvFileReader;
+    private final MovieRepository movieRepository;
+    private final ProducerRepository producerRepository;
+    private final AwardsIntervalsRepository awardsIntervalsRepository;
+
+    public BatchPersist(CsvFileReader csvFileReader, MovieRepository movieRepository, ProducerRepository producerRepository, AwardsIntervalsRepository awardsIntervalsRepository) {
+        this.csvFileReader = csvFileReader;
+        this.movieRepository = movieRepository;
+        this.producerRepository = producerRepository;
+        this.awardsIntervalsRepository = awardsIntervalsRepository;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -36,7 +39,7 @@ public class BatchPersist implements CommandLineRunner {
         List<Movie> movies = movieRepository.findAll();
 
         for (Movie movie : movies) {
-            String[] producers = movie.getProducersText().split(",| and ");
+            String[] producers = movie.getProducersText().split(CSV_SPLIT_REGEX);
             for (String producerName : producers){
                 if (producerName.trim().compareTo("") != 0)
                     producerNames.add(producerName.trim());
@@ -46,7 +49,7 @@ public class BatchPersist implements CommandLineRunner {
         producerNames.stream().forEach( producerName -> producerRepository.save(new Producer(producerName)) );
 
         for (Movie movie : movies) {
-            String[] producers = movie.getProducersText().split(",| and ");
+            String[] producers = movie.getProducersText().split(CSV_SPLIT_REGEX);
             for (String producerName : producers) {
                 if (producerName.trim().compareTo("") != 0){
                     Producer producer = producerRepository.findProducerByName(producerName.trim());

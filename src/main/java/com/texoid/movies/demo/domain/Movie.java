@@ -21,7 +21,6 @@ public class Movie implements Serializable  {
     @Id
     @org.hibernate.annotations.Type(type="org.hibernate.type.UUIDCharType")
     private UUID id;
-
     private Integer movieYear;
     private String title;
     private String studios;

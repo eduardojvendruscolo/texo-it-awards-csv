@@ -25,7 +25,7 @@ class DemoApplicationTests {
 	private MockMvc mvc;
 
 	@Test
-	void testMinMaxAwards() throws Exception {
+	void testMinMaxAwardsIntervals() throws Exception {
 
 		MvcResult result = mvc.perform(MockMvcRequestBuilders
 				.get("/movies/min-max")

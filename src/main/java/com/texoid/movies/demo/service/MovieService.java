@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class MovieService {
 
-    private AwardsIntervalsRepository awardsIntervalsRepository;
+    private final AwardsIntervalsRepository awardsIntervalsRepository;
 
     public MovieService(AwardsIntervalsRepository awardsIntervalsRepository) {
         this.awardsIntervalsRepository = awardsIntervalsRepository;
